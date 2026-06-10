@@ -30,3 +30,10 @@ const routes = [
   },
   { path: "/:pathMatch(.*)*", redirect: { name: "SignIn" } },
 ];
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes: routes,
+});
+
+export default router;
