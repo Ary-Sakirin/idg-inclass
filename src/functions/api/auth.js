@@ -29,3 +29,12 @@ export async function apiChangePassword(
     new_password_confirmation,
   });
 }
+export async function apiUpdateProfileImage(image) {
+  const formData = new FormData();
+  formData.append("profile_image", image);
+  formData.append("_method", "PUT");
+  return await axios.post(APP_API_URL + "/update/profile-image", formData);
+}
+export async function apiDeleteProfileImage() {
+  return await axios.delete(APP_API_URL + "/delete/profile-image");
+}
