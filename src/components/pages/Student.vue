@@ -31,7 +31,12 @@
       </div>
     </div>
   </div>
-  <StudentModal ref="StudentModalRef" />
+  <StudentModal
+    ref="StudentModalRef"
+    :onCreated="onStudentCreated"
+    :onUpdated="onStudentUpdated"
+    :onDeleted="onStudentDeleted"
+  />
 </template>
 
 <script setup>
@@ -106,7 +111,7 @@ const columns = [
       h(
         "button",
         {
-          onClick: () => {},
+          onClick: () => StudentModalRef.value.removeStudent(row.original.id),
           class: "btn btn-sm btn-outline-danger mx-1",
         },
         h("i", { class: "fa fa-trash" }),
@@ -115,7 +120,7 @@ const columns = [
       h(
         "button",
         {
-          onClick: () => {},
+          onClick: () => StudentModalRef.value.viewStudent(row.original.id),
           class: "btn btn-sm btn-secondary mx-1",
         },
         h("i", { class: "fa fa-eye" }),
@@ -144,4 +149,16 @@ async function generateStudents() {
   const response = await apiGetStudentsWithDetails();
   students.value = response.data.students;
 }
+
+const onStudentCreated = (student) => {
+  students.value = [...students.value, student];
+};
+const onStudentUpdated = (student) => {
+  students.value = students.value.map((obj) =>
+    obj.id !== student.id ? obj : student,
+  );
+};
+const onStudentDeleted = (student) => {
+  students.value = students.value.filter((obj) => obj.id !== student.id);
+};
 </script>
